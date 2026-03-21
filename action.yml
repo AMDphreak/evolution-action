@@ -1,0 +1,37 @@
+name: 'Qt Upgrader'
+description: 'Automatically upgrade Qt5 code to Qt6'
+inputs:
+  path:
+    description: 'Path to the code to upgrade'
+    required: true
+    default: '.'
+  rules:
+    description: 'Path to custom rules JSON5 file (optional)'
+    required: false
+  extensions:
+    description: 'Comma-separated list of extensions to process'
+    required: false
+    default: '.py,.cpp,.h'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install qt-upgrader
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install qt-upgrader
+
+    - name: Run qt-upgrader
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.rules }}" ]; then
+          qt-upgrader "${{ inputs.path }}" --rules "${{ inputs.rules }}" --extensions "${{ inputs.extensions }}"
+        else
+          qt-upgrader "${{ inputs.path }}" --extensions "${{ inputs.extensions }}"
+        fi

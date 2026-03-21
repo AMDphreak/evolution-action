@@ -1,0 +1,31 @@
+= Qt-Upgrader Action
+:toc:
+
+A GitHub Action to automatically upgrade Qt5 code to Qt6 using `qt-upgrader`.
+
+== Usage
+
+Add the following to your GitHub Workflow:
+
+[source,yaml]
+----
+- name: Upgrade Qt5 to Qt6
+  uses: AMDphreak/qt-upgrader-action@v1
+  with:
+    path: './src'
+----
+
+== Inputs
+
+[cols="1,2,1"]
+|===
+| Input | Description | Default
+
+| `path` | Path to the code to upgrade | `.`
+| `rules` | Path to custom rules JSON5 file | (Standard rules)
+| `extensions` | Comma-separated list of extensions | `.py,.cpp,.h`
+|===
+
+== Changelog
+
+See link:CHANGELOG.md[CHANGELOG.md].
