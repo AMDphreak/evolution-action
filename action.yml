@@ -1,43 +1,70 @@
-name: 'Qt Evolution Action'
-description: 'Automatically adapt and evolve Qt code across versions'
+name: 'Evolution Action'
+description: 'Generic action to evolve code using the Evolution Engine and a ruleset'
+
 inputs:
   path:
-    description: 'Path to the code to upgrade'
+    description: 'Path to the code to adapt'
     required: true
     default: '.'
-  rules:
-    description: 'Path to custom rules JSON5 file (optional)'
+  engine-repo:
+    description: 'Repository containing the Evolution Engine'
     required: false
+    default: 'AMDphreak/evolution-engine'
+  engine-version:
+    description: 'Version of the engine to use (tag or branch)'
+    required: false
+    default: 'v1.2.0'
+  rules-repo:
+    description: 'Repository containing the ruleset'
+    required: true
+    default: 'AMDphreak/evolution-rules-qt'
+  rules-version:
+    description: 'Version of the ruleset to use'
+    required: false
+    default: 'main'
+  rules-dir:
+    description: 'Path to the rules directory within the rules-repo'
+    required: false
+    default: 'rules/qt'
+  from:
+    description: 'Starting version'
+    required: true
+  to:
+    description: 'Target version'
+    required: true
   extensions:
-    description: 'Comma-separated list of extensions to process'
+    description: 'File extensions to process'
     required: false
     default: '.py,.cpp,.h'
 
 runs:
   using: 'composite'
   steps:
-    - name: Set up D
+    - name: Setup Dlang
       uses: dlang-community/setup-dlang@v1
       with:
         compiler: ldc-latest
 
-    - name: Checkout upgrader
+    - name: Checkout Engine
       uses: actions/checkout@v4
       with:
-        repository: AMDphreak/qt-evolution-adapter
-        path: qt-evolution-tool
+        repository: ${{ inputs.engine-repo }}
+        ref: ${{ inputs.engine-version }}
+        path: evolution-engine-tool
 
-    - name: Run qt-upgrader
+    - name: Checkout Ruleset
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.rules-repo }}
+        ref: ${{ inputs.rules-version }}
+        path: evolution-rules-dir
+
+    - name: Run Evolution Engine
       shell: bash
       run: |
-        RULES_ARG=""
-        if [ -n "${{ inputs.rules }}" ]; then
-          RULES_ARG="--rules ${{ inputs.rules }}"
-        else
-          # Use default rules from the toolkit repo
-          RULES_ARG="--rules-dir qt-evolution-tool/rules/qt"
-        fi
-        
-        # Build and run from source (no Python bloat)
-        cd qt-evolution-tool
-        dub run -- --path "../${{ inputs.path }}" $RULES_ARG --extensions "${{ inputs.extensions }}"
+        cd evolution-engine-tool
+        dub run -- --path "../${{ inputs.path }}" \
+                   --rules-dir "../evolution-rules-dir/${{ inputs.rules-dir }}" \
+                   --from "${{ inputs.from }}" \
+                   --to "${{ inputs.to }}" \
+                   --extensions "${{ inputs.extensions }}"
