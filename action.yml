@@ -1,5 +1,5 @@
-name: 'Qt Upgrader'
-description: 'Automatically upgrade Qt5 code to Qt6'
+name: 'Qt Evolution Action'
+description: 'Automatically adapt and evolve Qt code across versions'
 inputs:
   path:
     description: 'Path to the code to upgrade'
@@ -24,8 +24,8 @@ runs:
     - name: Checkout upgrader
       uses: actions/checkout@v4
       with:
-        repository: AMDphreak/qt-upgrader
-        path: qt-upgrader-tool
+        repository: AMDphreak/qt-evolution-adapter
+        path: qt-evolution-tool
 
     - name: Run qt-upgrader
       shell: bash
@@ -35,9 +35,9 @@ runs:
           RULES_ARG="--rules ${{ inputs.rules }}"
         else
           # Use default rules from the toolkit repo
-          RULES_ARG="--rules qt-upgrader-tool/rules/qt5_to_qt6.sdl"
+          RULES_ARG="--rules-dir qt-evolution-tool/rules/qt"
         fi
         
         # Build and run from source (no Python bloat)
-        cd qt-upgrader-tool
+        cd qt-evolution-tool
         dub run -- --path "../${{ inputs.path }}" $RULES_ARG --extensions "${{ inputs.extensions }}"
