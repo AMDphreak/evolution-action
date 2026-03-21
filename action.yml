@@ -16,22 +16,28 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    - name: Set up D
+      uses: dlang-community/setup-dlang@v1
       with:
-        python-version: '3.12'
+        compiler: ldc-latest
 
-    - name: Install qt-upgrader
-      shell: bash
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install git+https://github.com/AMDphreak/qt-upgrader.git
+    - name: Checkout upgrader
+      uses: actions/checkout@v4
+      with:
+        repository: AMDphreak/qt-upgrader
+        path: qt-upgrader-tool
 
     - name: Run qt-upgrader
       shell: bash
       run: |
+        RULES_ARG=""
         if [ -n "${{ inputs.rules }}" ]; then
-          qt-upgrader "${{ inputs.path }}" --rules "${{ inputs.rules }}" --extensions "${{ inputs.extensions }}"
+          RULES_ARG="--rules ${{ inputs.rules }}"
         else
-          qt-upgrader "${{ inputs.path }}" --extensions "${{ inputs.extensions }}"
+          # Use default rules from the toolkit repo
+          RULES_ARG="--rules qt-upgrader-tool/rules/qt5_to_qt6.sdl"
         fi
+        
+        # Build and run from source (no Python bloat)
+        cd qt-upgrader-tool
+        dub run -- --path "../${{ inputs.path }}" $RULES_ARG --extensions "${{ inputs.extensions }}"
