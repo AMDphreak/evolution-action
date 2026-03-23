@@ -10,11 +10,12 @@ Add the following to your GitHub Workflow:
 [source,yaml]
 ----
 - name: Evolve Code
-  uses: AMDphreak/evolution-engine-action@main
+  uses: AMDphreak/evolution-engine-action@v1.1.0
   with:
     from: '5.15'
     to: '6.0'
-    rules-repo: 'AMDphreak/evolution-rules-qt'
+    library: 'python/PyQt'
+    in-place: 'true'
 ----
 
 == Inputs
@@ -24,12 +25,30 @@ Add the following to your GitHub Workflow:
 | Input | Description | Default
 
 | `path` | Path to the code to adapt | `.`
+| `library` | Library/Binding subpath (e.g., `python/PyQt`) | `""`
 | `from` | Starting version/context | (Required)
 | `to` | Target version/context | (Required)
-| `rules-repo` | Repository containing the ruleset | `AMDphreak/evolution-rules-qt`
-| `rules-dir` | Path to rules within the rules repo | `rules/qt`
+| `rules-repo` | Repository containing the ruleset | `AMDphreak/evolution-rules-code`
+| `rules-dir` | Path to rules within the rules repo (or URL) | `rules`
+| `in-place` | Modify files in-place? | `true`
+| `out-dir` | Output directory for transformed files | `""`
 | `extensions` | Comma-separated list of extensions | `.py,.cpp,.h`
 |===
+
+== Dual Release Strategy
+
+To maintain both original and evolved versions, use the `out-dir` input:
+
+[source,yaml]
+----
+- name: Evolve Code
+  uses: AMDphreak/evolution-engine-action@v1.1.0
+  with:
+    from: '5.15'
+    to: '6.0'
+    library: 'python/PyQt'
+    out-dir: 'dist/qt6'
+----
 
 == Changelog
 

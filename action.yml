@@ -13,19 +13,23 @@ inputs:
   engine-version:
     description: 'Version of the engine to use (tag or branch)'
     required: false
-    default: 'main'
+    default: 'v1.3.0'
   rules-repo:
     description: 'Repository containing the ruleset'
     required: true
-    default: 'AMDphreak/evolution-rules-qt'
+    default: 'AMDphreak/evolution-rules-code'
   rules-version:
     description: 'Version of the ruleset to use'
     required: false
-    default: 'main'
+    default: 'v1.0.0'
   rules-dir:
-    description: 'Path to the rules directory within the rules-repo'
+    description: 'Path to the rules directory within the rules-repo (or URL/Archive)'
     required: false
     default: 'rules'
+  library:
+    description: 'Library/Binding subpath (e.g., python/PyQt)'
+    required: false
+    default: ''
   from:
     description: 'Starting version'
     required: true
@@ -36,6 +40,14 @@ inputs:
     description: 'File extensions to process'
     required: false
     default: '.py,.cpp,.h'
+  in-place:
+    description: 'Modify files in-place? (default: true)'
+    required: false
+    default: 'true'
+  out-dir:
+    description: 'Output directory for transformed files (disables in-place if set)'
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
@@ -62,10 +74,31 @@ runs:
     - name: Run Evolution Engine
       shell: bash
       run: |
-        cd evolution-engine-tool
-        dub run -- --path "../${{ inputs.path }}" \
-                   --rules-dir "../evolution-rules-dir/${{ inputs.rules-dir }}" \
-                   --from "${{ inputs.from }}" \
-                   --to "${{ inputs.to }}" \
-                   --extensions "${{ inputs.extensions }}" \
-                   --in-place
+        CMD="./evolution-engine-tool/bin/evolution-engine --path '${{ inputs.path }}'"
+        
+        # Build rules source
+        # If rules-dir starts with http, use it directly as rules-dir
+        if [[ "${{ inputs.rules-dir }}" == http* ]]; then
+          CMD="$CMD --rules-dir '${{ inputs.rules-dir }}'"
+        else
+          CMD="$CMD --rules-dir 'evolution-rules-dir/${{ inputs.rules-dir }}'"
+        fi
+
+        CMD="$CMD --from '${{ inputs.from }}' --to '${{ inputs.to }}' --extensions '${{ inputs.extensions }}'"
+        
+        if [ -n "${{ inputs.library }}" ]; then
+          CMD="$CMD --library '${{ inputs.library }}'"
+        fi
+
+        if [ -n "${{ inputs.out-dir }}" ]; then
+          CMD="$CMD --out-dir '${{ inputs.out-dir }}'"
+        elif [ "${{ inputs.in-place }}" == "true" ]; then
+          CMD="$CMD --in-place"
+        fi
+
+        # Build the engine if binary doesn't exist
+        if [ ! -f ./evolution-engine-tool/bin/evolution-engine ]; then
+          cd evolution-engine-tool && dub build -b release && cd ..
+        fi
+
+        eval $CMD
