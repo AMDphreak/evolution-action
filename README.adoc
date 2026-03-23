@@ -1,7 +1,11 @@
-= Evolution Engine Action
-:toc:
-
 A generic GitHub Action to automate code evolution using the link:https://github.com/AMDphreak/evolution-engine[Evolution Engine] and a specified ruleset.
+
+== Ecosystem
+
+* link:https://github.com/AMDphreak/evolution-engine[Evolution Engine] — The core binary that resolves and applies evolutionary rules.
+* link:https://github.com/AMDphreak/evolution-engine-action[Evolution Engine Action] — This repository (Modular GitHub Action).
+* link:https://github.com/AMDphreak/evolution-rules-code[Evolution Rules: Code] — Rules for migrating source code between library versions.
+* link:https://github.com/AMDphreak/evolution-rules-filesystem[Evolution Rules: Filesystem] — Rules for cross-OS path mapping and equivalency.
 
 == Usage
 
