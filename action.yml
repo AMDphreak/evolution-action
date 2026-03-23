@@ -1,4 +1,4 @@
-name: 'Evolution Action'
+name: 'Evolution Engine Action'
 description: 'Generic action to evolve code using the Evolution Engine and a ruleset'
 
 inputs:
@@ -13,7 +13,7 @@ inputs:
   engine-version:
     description: 'Version of the engine to use (tag or branch)'
     required: false
-    default: 'v1.2.0'
+    default: 'main'
   rules-repo:
     description: 'Repository containing the ruleset'
     required: true
@@ -41,7 +41,7 @@ runs:
   using: 'composite'
   steps:
     - name: Setup Dlang
-      uses: dlang-community/setup-dlang@v1
+      uses: dlang-community/setup-dlang@v2
       with:
         compiler: ldc-latest
 
@@ -67,4 +67,5 @@ runs:
                    --rules-dir "../evolution-rules-dir/${{ inputs.rules-dir }}" \
                    --from "${{ inputs.from }}" \
                    --to "${{ inputs.to }}" \
-                   --extensions "${{ inputs.extensions }}"
+                   --extensions "${{ inputs.extensions }}" \
+                   --in-place
