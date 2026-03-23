@@ -25,7 +25,7 @@ inputs:
   rules-dir:
     description: 'Path to the rules directory within the rules-repo'
     required: false
-    default: 'rules/qt'
+    default: 'rules'
   from:
     description: 'Starting version'
     required: true
