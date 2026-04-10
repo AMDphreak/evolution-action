@@ -1,5 +1,5 @@
-name: 'Evolution Engine Action'
-description: 'Generic action to evolve code using the Evolution Engine and a ruleset'
+name: 'Equivalence Engine Action'
+description: 'Generic action to adapt code using the Equivalence Engine and a ruleset'
 
 inputs:
   path:
@@ -7,9 +7,9 @@ inputs:
     required: true
     default: '.'
   engine-repo:
-    description: 'Repository containing the Evolution Engine'
+    description: 'Repository containing the Equivalence Engine'
     required: false
-    default: 'AMDphreak/evolution-engine'
+    default: 'AMDphreak/equivalence-engine'
   engine-version:
     description: 'Version of the engine to use (tag or branch)'
     required: false
@@ -17,7 +17,7 @@ inputs:
   rules-repo:
     description: 'Repository containing the ruleset'
     required: true
-    default: 'AMDphreak/evolution-rules-code'
+    default: 'AMDphreak/equivalence-rules-code'
   rules-version:
     description: 'Version of the ruleset to use'
     required: false
@@ -62,26 +62,26 @@ runs:
       with:
         repository: ${{ inputs.engine-repo }}
         ref: ${{ inputs.engine-version }}
-        path: evolution-engine-tool
+        path: equivalence-engine-tool
 
     - name: Checkout Ruleset
       uses: actions/checkout@v4
       with:
         repository: ${{ inputs.rules-repo }}
         ref: ${{ inputs.rules-version }}
-        path: evolution-rules-dir
+        path: equivalence-rules-dir
 
-    - name: Run Evolution Engine
+    - name: Run Equivalence Engine
       shell: bash
       run: |
-        CMD="./evolution-engine-tool/bin/evolution-engine --path '${{ inputs.path }}'"
+        CMD="./equivalence-engine-tool/bin/equivalence-engine --path '${{ inputs.path }}'"
         
         # Build rules source
         # If rules-dir starts with http, use it directly as rules-dir
         if [[ "${{ inputs.rules-dir }}" == http* ]]; then
           CMD="$CMD --rules-dir '${{ inputs.rules-dir }}'"
         else
-          CMD="$CMD --rules-dir 'evolution-rules-dir/${{ inputs.rules-dir }}'"
+          CMD="$CMD --rules-dir 'equivalence-rules-dir/${{ inputs.rules-dir }}'"
         fi
 
         CMD="$CMD --from '${{ inputs.from }}' --to '${{ inputs.to }}' --extensions '${{ inputs.extensions }}'"
@@ -97,8 +97,8 @@ runs:
         fi
 
         # Build the engine if binary doesn't exist
-        if [ ! -f ./evolution-engine-tool/bin/evolution-engine ]; then
-          cd evolution-engine-tool && dub build -b release && cd ..
+        if [ ! -f ./equivalence-engine-tool/bin/equivalence-engine ]; then
+          cd equivalence-engine-tool && dub build -b release && cd ..
         fi
 
         eval $CMD

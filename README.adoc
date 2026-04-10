@@ -1,11 +1,11 @@
-A generic GitHub Action to automate code evolution using the link:https://github.com/AMDphreak/evolution-engine[Evolution Engine] and a specified ruleset.
+A generic GitHub Action to automate code adaptation using the link:https://github.com/AMDphreak/equivalence-engine[Equivalence Engine] and a specified ruleset.
 
 == Ecosystem
 
-* link:https://github.com/AMDphreak/evolution-engine[Evolution Engine] — The core binary that resolves and applies evolutionary rules.
-* link:https://github.com/AMDphreak/evolution-engine-action[Evolution Engine Action] — This repository (Modular GitHub Action).
-* link:https://github.com/AMDphreak/evolution-rules-code[Evolution Rules: Code] — Rules for migrating source code between library versions.
-* link:https://github.com/AMDphreak/evolution-rules-filesystem[Evolution Rules: Filesystem] — Rules for cross-OS path mapping and equivalency.
+* link:https://github.com/AMDphreak/equivalence-engine[Equivalence Engine] — The core binary that resolves and applies migration and equivalence rules.
+* link:https://github.com/AMDphreak/equivalence-engine-action[Equivalence Engine Action] — This repository (modular GitHub Action).
+* link:https://github.com/AMDphreak/equivalence-rules-code[Equivalence Rules: Code] — Rules for migrating source code between library versions.
+* link:https://github.com/AMDphreak/equivalence-rules-filesystem[Equivalence Rules: Filesystem] — Rules for cross-OS path mapping and equivalency.
 
 == Usage
 
@@ -13,8 +13,8 @@ Add the following to your GitHub Workflow:
 
 [source,yaml]
 ----
-- name: Evolve Code
-  uses: AMDphreak/evolution-engine-action@v1.1.0
+- name: Adapt code
+  uses: AMDphreak/equivalence-engine-action@v1.1.0
   with:
     from: '5.15'
     to: '6.0'
@@ -32,7 +32,7 @@ Add the following to your GitHub Workflow:
 | `library` | Library/Binding subpath (e.g., `python/PyQt`) | `""`
 | `from` | Starting version/context | (Required)
 | `to` | Target version/context | (Required)
-| `rules-repo` | Repository containing the ruleset | `AMDphreak/evolution-rules-code`
+| `rules-repo` | Repository containing the ruleset | `AMDphreak/equivalence-rules-code`
 | `rules-dir` | Path to rules within the rules repo (or URL) | `rules`
 | `in-place` | Modify files in-place? | `true`
 | `out-dir` | Output directory for transformed files | `""`
@@ -41,12 +41,12 @@ Add the following to your GitHub Workflow:
 
 == Dual Release Strategy
 
-To maintain both original and evolved versions, use the `out-dir` input:
+To maintain both original and adapted versions, use the `out-dir` input:
 
 [source,yaml]
 ----
-- name: Evolve Code
-  uses: AMDphreak/evolution-engine-action@v1.1.0
+- name: Adapt code
+  uses: AMDphreak/equivalence-engine-action@v1.1.0
   with:
     from: '5.15'
     to: '6.0'
