@@ -1,6 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [2.1.0] - 2026-04-10
+
+### Added
+
+- **Floating `latest` tag** on this repository so workflows can use `uses: AMDphreak/equivalence-engine-action@latest`; documentation recommends pinning semver or SHA for reproducible CI.
 
 ### Changed
 

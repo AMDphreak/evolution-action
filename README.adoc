@@ -9,18 +9,20 @@ A generic GitHub Action to automate code adaptation using the link:https://githu
 
 == Usage
 
-Add the following to your GitHub Workflow:
+Add the following to your GitHub workflow. By default this tracks the **link:https://github.com/AMDphreak/equivalence-engine-action/releases/latest[`latest` tag]**, which moves when maintainers publish a new stable release.
 
 [source,yaml]
 ----
 - name: Adapt code
-  uses: AMDphreak/equivalence-engine-action@v1.1.0
+  uses: AMDphreak/equivalence-engine-action@latest
   with:
     from: '5.15'
     to: '6.0'
     library: 'python/PyQt'
     in-place: 'true'
 ----
+
+TIP: For reproducible CI (recommended for production), **pin** a semver tag instead of `latest`, for example `AMDphreak/equivalence-engine-action@v2.1.0`, or pin to a full commit SHA. Floating `latest` can pick up behavior changes as soon as they ship.
 
 == Inputs
 
@@ -46,7 +48,7 @@ To maintain both original and adapted versions, use the `out-dir` input:
 [source,yaml]
 ----
 - name: Adapt code
-  uses: AMDphreak/equivalence-engine-action@v1.1.0
+  uses: AMDphreak/equivalence-engine-action@latest
   with:
     from: '5.15'
     to: '6.0'
