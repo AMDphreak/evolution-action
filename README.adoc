@@ -1,28 +1,37 @@
 A generic GitHub Action to automate code adaptation using the link:https://github.com/AMDphreak/equivalence-engine[Equivalence Engine] and a specified ruleset.
 
+Keep this repository **separate** from the engine; pin versions explicitly so engine, rules, and action stay in sync (see link:COMPATIBILITY.md[COMPATIBILITY.md]).
+
 == Ecosystem
 
 * link:https://github.com/AMDphreak/equivalence-engine[Equivalence Engine] — The core binary that resolves and applies migration and equivalence rules.
 * link:https://github.com/AMDphreak/equivalence-engine-action[Equivalence Engine Action] — This repository (modular GitHub Action).
-* link:https://github.com/AMDphreak/equivalence-rules-code[Equivalence Rules: Code] — Rules for migrating source code between library versions.
-* link:https://github.com/AMDphreak/equivalence-rules-filesystem[Equivalence Rules: Filesystem] — Rules for cross-OS path mapping and equivalency.
+* link:https://github.com/AMDphreak/evolution-rules-code[Evolution Rules: Code] — Rules for migrating source code between library versions (GitHub name today; local clones may use `equivalence-rules-code`).
+* link:https://github.com/AMDphreak/evolution-rules-filesystem[Evolution Rules: Filesystem] — Cross-OS path rules (same naming note).
 
-== Usage
+== Usage (recommended: full pinning)
 
-Add the following to your GitHub workflow. By default this tracks the **link:https://github.com/AMDphreak/equivalence-engine-action/releases/latest[`latest` tag]**, which moves when maintainers publish a new stable release.
+Pin **the action ref**, **`engine-version`**, and **`rules-version`** (and optionally **`rules-repo`** if you fork rules). Defaults in `action.yml` match the row in link:COMPATIBILITY.md[COMPATIBILITY.md] for each action release tag.
 
 [source,yaml]
 ----
 - name: Adapt code
-  uses: AMDphreak/equivalence-engine-action@latest
+  uses: AMDphreak/equivalence-engine-action@v2.1.1
   with:
+    engine-version: v1.3.2
+    rules-repo: AMDphreak/evolution-rules-code
+    rules-version: v1.0.0
     from: '5.15'
     to: '6.0'
     library: 'python/PyQt'
     in-place: 'true'
 ----
 
-TIP: For reproducible CI (recommended for production), **pin** a semver tag instead of `latest`, for example `AMDphreak/equivalence-engine-action@v2.1.0`, or pin to a full commit SHA. Floating `latest` can pick up behavior changes as soon as they ship.
+You may pin **`engine-version`** / **`rules-version`** to a **commit SHA** instead of a tag.
+
+== Floating `latest` (optional)
+
+For quick experiments you can use `uses: AMDphreak/equivalence-engine-action@latest`. That only pins the **action** snapshot; you should still set **`engine-version`** and **`rules-version`** explicitly in production, or you inherit the defaults baked into that action revision (which can change when `latest` moves).
 
 == Inputs
 
@@ -31,14 +40,17 @@ TIP: For reproducible CI (recommended for production), **pin** a semver tag inst
 | Input | Description | Default
 
 | `path` | Path to the code to adapt | `.`
+| `engine-repo` | Engine repository | `AMDphreak/equivalence-engine`
+| `engine-version` | Engine git ref (pin in CI) | `v1.3.2`
+| `rules-repo` | Rules repository | `AMDphreak/evolution-rules-code`
+| `rules-version` | Rules git ref (pin in CI) | `v1.0.0`
 | `library` | Library/Binding subpath (e.g., `python/PyQt`) | `""`
 | `from` | Starting version/context | (Required)
 | `to` | Target version/context | (Required)
-| `rules-repo` | Repository containing the ruleset | `AMDphreak/equivalence-rules-code`
 | `rules-dir` | Path to rules within the rules repo (or URL) | `rules`
 | `in-place` | Modify files in-place? | `true`
 | `out-dir` | Output directory for transformed files | `""`
-| `extensions` | Comma-separated list of extensions | `.py,.cpp,.h`
+| `extensions` | Comma-separated list of extensions | `.py,.cpp,.h,.js,.ts,.astro`
 |===
 
 == Dual Release Strategy
@@ -48,8 +60,10 @@ To maintain both original and adapted versions, use the `out-dir` input:
 [source,yaml]
 ----
 - name: Adapt code
-  uses: AMDphreak/equivalence-engine-action@latest
+  uses: AMDphreak/equivalence-engine-action@v2.1.1
   with:
+    engine-version: v1.3.2
+    rules-version: v1.0.0
     from: '5.15'
     to: '6.0'
     library: 'python/PyQt'

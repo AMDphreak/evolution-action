@@ -11,15 +11,15 @@ inputs:
     required: false
     default: 'AMDphreak/equivalence-engine'
   engine-version:
-    description: 'Version of the engine to use (tag or branch)'
+    description: 'Engine git ref to checkout (tag, branch, or SHA). Pin this in workflows for reproducible CI.'
     required: false
-    default: 'v1.3.0'
+    default: 'v1.3.2'
   rules-repo:
     description: 'Repository containing the ruleset'
     required: true
-    default: 'AMDphreak/equivalence-rules-code'
+    default: 'AMDphreak/evolution-rules-code'
   rules-version:
-    description: 'Version of the ruleset to use'
+    description: 'Ruleset git ref (tag, branch, or SHA). Pin this alongside engine-version.'
     required: false
     default: 'v1.0.0'
   rules-dir:
@@ -39,7 +39,7 @@ inputs:
   extensions:
     description: 'File extensions to process'
     required: false
-    default: '.py,.cpp,.h'
+    default: '.py,.cpp,.h,.js,.ts,.astro'
   in-place:
     description: 'Modify files in-place? (default: true)'
     required: false
