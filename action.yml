@@ -9,7 +9,7 @@ inputs:
   engine-repo:
     description: 'Repository containing the Equivalence Engine'
     required: false
-    default: 'AMDphreak/equivalence-engine'
+    default: 'dev-centr/equivalence-engine'
   engine-version:
     description: 'Engine git ref to checkout (tag, branch, or SHA). Pin this in workflows for reproducible CI.'
     required: false
@@ -17,7 +17,7 @@ inputs:
   rules-repo:
     description: 'Repository containing the ruleset'
     required: true
-    default: 'AMDphreak/evolution-rules-code'
+    default: 'dev-centr/equivalence-rules-code'
   rules-version:
     description: 'Ruleset git ref (tag, branch, or SHA). Pin this alongside engine-version.'
     required: false

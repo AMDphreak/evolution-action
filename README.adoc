@@ -1,13 +1,13 @@
-A generic GitHub Action to automate code adaptation using the link:https://github.com/AMDphreak/equivalence-engine[Equivalence Engine] and a specified ruleset.
+A generic GitHub Action to automate code adaptation using the link:https://github.com/dev-centr/equivalence-engine[Equivalence Engine] and a specified ruleset.
 
 Keep this repository **separate** from the engine; pin versions explicitly so engine, rules, and action stay in sync (see link:COMPATIBILITY.md[COMPATIBILITY.md]).
 
 == Ecosystem
 
-* link:https://github.com/AMDphreak/equivalence-engine[Equivalence Engine] — The core binary that resolves and applies migration and equivalence rules.
-* link:https://github.com/AMDphreak/equivalence-engine-action[Equivalence Engine Action] — This repository (modular GitHub Action).
-* link:https://github.com/AMDphreak/evolution-rules-code[Evolution Rules: Code] — Rules for migrating source code between library versions (GitHub name today; local clones may use `equivalence-rules-code`).
-* link:https://github.com/AMDphreak/evolution-rules-filesystem[Evolution Rules: Filesystem] — Cross-OS path rules (same naming note).
+* link:https://github.com/dev-centr/equivalence-engine[Equivalence Engine] — The core binary that resolves and applies migration and equivalence rules.
+* link:https://github.com/dev-centr/equivalence-engine-action[Equivalence Engine Action] — This repository (modular GitHub Action).
+* link:https://github.com/dev-centr/equivalence-rules-code[Equivalence Rules: Code] — Rules for migrating source code between library versions.
+* link:https://github.com/dev-centr/equivalence-rules-filesystem[Equivalence Rules: Filesystem] — Cross-OS path rules.
 
 == Usage (recommended: full pinning)
 
@@ -16,10 +16,10 @@ Pin **the action ref**, **`engine-version`**, and **`rules-version`** (and optio
 [source,yaml]
 ----
 - name: Adapt code
-  uses: AMDphreak/equivalence-engine-action@v2.1.1
+  uses: dev-centr/equivalence-engine-action@v2.1.1
   with:
     engine-version: v1.3.2
-    rules-repo: AMDphreak/evolution-rules-code
+    rules-repo: dev-centr/equivalence-rules-code
     rules-version: v1.0.0
     from: '5.15'
     to: '6.0'
@@ -31,7 +31,7 @@ You may pin **`engine-version`** / **`rules-version`** to a **commit SHA** inste
 
 == Floating `latest` (optional)
 
-For quick experiments you can use `uses: AMDphreak/equivalence-engine-action@latest`. That only pins the **action** snapshot; you should still set **`engine-version`** and **`rules-version`** explicitly in production, or you inherit the defaults baked into that action revision (which can change when `latest` moves).
+For quick experiments you can use `uses: dev-centr/equivalence-engine-action@latest`. That only pins the **action** snapshot; you should still set **`engine-version`** and **`rules-version`** explicitly in production, or you inherit the defaults baked into that action revision (which can change when `latest` moves).
 
 == Inputs
 
@@ -40,9 +40,9 @@ For quick experiments you can use `uses: AMDphreak/equivalence-engine-action@lat
 | Input | Description | Default
 
 | `path` | Path to the code to adapt | `.`
-| `engine-repo` | Engine repository | `AMDphreak/equivalence-engine`
+| `engine-repo` | Engine repository | `dev-centr/equivalence-engine`
 | `engine-version` | Engine git ref (pin in CI) | `v1.3.2`
-| `rules-repo` | Rules repository | `AMDphreak/evolution-rules-code`
+| `rules-repo` | Rules repository | `dev-centr/equivalence-rules-code`
 | `rules-version` | Rules git ref (pin in CI) | `v1.0.0`
 | `library` | Library/Binding subpath (e.g., `python/PyQt`) | `""`
 | `from` | Starting version/context | (Required)
@@ -60,7 +60,7 @@ To maintain both original and adapted versions, use the `out-dir` input:
 [source,yaml]
 ----
 - name: Adapt code
-  uses: AMDphreak/equivalence-engine-action@v2.1.1
+  uses: dev-centr/equivalence-engine-action@v2.1.1
   with:
     engine-version: v1.3.2
     rules-version: v1.0.0
