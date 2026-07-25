@@ -1,0 +1,93 @@
+= GitHub Action CI/CD Integration
+:navtitle: CI Action Integration
+
+The **Equivalence Engine Action** is a modular, lightweight GitHub Action designed to automate source code and path adaptations directly in your GitHub CI/CD workflows.
+
+== Recommended CI Pipeline Pattern (Fully Pinned)
+
+To ensure your builds are fully deterministic and repeatable, we strongly recommend pinning:
+1. The **GitHub Action version reference** (e.g. `@v2.1.1`).
+2. The **`engine-version`** parameter (the CLI release ref).
+3. The **`rules-version`** parameter (the ruleset release ref).
+
+[source,yaml]
+----
+- name: Adapt code
+  uses: AMDphreak/equivalence-engine-action@v2.1.1
+  with:
+    engine-version: v1.3.2
+    rules-repo: AMDphreak/evolution-rules-code
+    rules-version: v1.0.0
+    from: '5.15'
+    to: '6.0'
+    library: 'python/PyQt'
+    in-place: 'true'
+----
+
+== Action Parameters (Inputs)
+
+[cols="1m,2,1"]
+|===
+| Parameter | Description | Default
+
+| path
+| Subdirectory containing the source code files to adapt.
+| `.`
+
+| engine-repo
+| The GitHub repository of the CLI engine.
+| `AMDphreak/equivalence-engine`
+
+| engine-version
+| Git ref/tag of the engine to compile and run.
+| `v1.3.2`
+
+| rules-repo
+| The GitHub repository of the migration ruleset.
+| `AMDphreak/evolution-rules-code`
+
+| rules-version
+| Git ref/tag of the rules repository to pull from.
+| `v1.0.0`
+
+| library
+| Sub-path within the rules repo defining the library (e.g., `python/PyQt`).
+| `""`
+
+| from
+| Starting version boundary to migrate from.
+| *(Required)*
+
+| to
+| Target version boundary to migrate to.
+| *(Required)*
+
+| in-place
+| Overwrite matches directly in-place (`true` or `false`).
+| `true`
+
+| out-dir
+| Output directory to write adapted files to (if not in-place).
+| `""`
+
+| extensions
+| Comma-separated list of file extensions to scan.
+| `.py,.cpp,.h,.js,.ts,.astro`
+|===
+
+== Advanced Dual-Release Pipeline
+
+For projects maintaining support for both legacy and modern library versions, you can configure the action to output the adapted code to a secondary folder (e.g., `dist/qt6`) without modifying your primary source tree:
+
+[source,yaml]
+----
+- name: Generate PyQt6 Compatible Distribution
+  uses: AMDphreak/equivalence-engine-action@v2.1.1
+  with:
+    engine-version: v1.3.2
+    rules-version: v1.0.0
+    from: '5.15'
+    to: '6.0'
+    library: 'python/PyQt'
+    out-dir: 'dist/qt6'
+----

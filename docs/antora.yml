@@ -1,0 +1,5 @@
+name: equivalence-engine-action
+version: ~
+title: CI GitHub Action
+nav:
+  - modules/ROOT/nav.adoc
