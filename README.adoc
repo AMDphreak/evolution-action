@@ -1,15 +1,45 @@
+ifndef::env-github[:icons: font]
+:toc: preamble
+:toclevels: 2
+:sectanchors:
+
+ifndef::env-github[]
+image:https://img.shields.io/github/contributors/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Contributors,link=https://github.com/dev-centr/equivalence-engine-action/graphs/contributors]
+image:https://img.shields.io/github/forks/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Forks,link=https://github.com/dev-centr/equivalence-engine-action/network/members]
+image:https://img.shields.io/github/stars/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Stars,link=https://github.com/dev-centr/equivalence-engine-action/stargazers]
+image:https://img.shields.io/github/issues/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Issues,link=https://github.com/dev-centr/equivalence-engine-action/issues]
+endif::[]
+
+ifdef::env-github[]
+image:https://img.shields.io/github/contributors/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Contributors]
+image:https://img.shields.io/github/forks/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Forks]
+image:https://img.shields.io/github/stars/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Stars]
+image:https://img.shields.io/github/issues/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Issues]
+endif::[]
+
+= Equivalence Engine Action
+
+Modular GitHub Action to automate codebase adaptation using the Evolution Engine and custom rulesets.
+
+link:https://github.com/dev-centr/equivalence-engine-action/issues[Report Bug] ·
+link:https://github.com/dev-centr/equivalence-engine-action/issues[Request Feature]
+
+== About The Project
+
 A generic GitHub Action to automate code adaptation using the link:https://github.com/dev-centr/equivalence-engine[Equivalence Engine] and a specified ruleset.
 
 Keep this repository **separate** from the engine; pin versions explicitly so engine, rules, and action stay in sync (see link:COMPATIBILITY.md[COMPATIBILITY.md]).
 
-== Ecosystem
+=== Ecosystem
 
 * link:https://github.com/dev-centr/equivalence-engine[Equivalence Engine] — The core binary that resolves and applies migration and equivalence rules.
 * link:https://github.com/dev-centr/equivalence-engine-action[Equivalence Engine Action] — This repository (modular GitHub Action).
 * link:https://github.com/dev-centr/equivalence-rules-code[Equivalence Rules: Code] — Rules for migrating source code between library versions.
 * link:https://github.com/dev-centr/equivalence-rules-filesystem[Equivalence Rules: Filesystem] — Cross-OS path rules.
 
-== Usage (recommended: full pinning)
+== Usage
+
+=== Recommended: full pinning
 
 Pin **the action ref**, **`engine-version`**, and **`rules-version`** (and optionally **`rules-repo`** if you fork rules). Defaults in `action.yml` match the row in link:COMPATIBILITY.md[COMPATIBILITY.md] for each action release tag.
 
@@ -29,11 +59,11 @@ Pin **the action ref**, **`engine-version`**, and **`rules-version`** (and optio
 
 You may pin **`engine-version`** / **`rules-version`** to a **commit SHA** instead of a tag.
 
-== Floating `latest` (optional)
+=== Floating `latest` (optional)
 
 For quick experiments you can use `uses: dev-centr/equivalence-engine-action@latest`. That only pins the **action** snapshot; you should still set **`engine-version`** and **`rules-version`** explicitly in production, or you inherit the defaults baked into that action revision (which can change when `latest` moves).
 
-== Inputs
+=== Inputs
 
 [cols="1,2,1"]
 |===
@@ -53,7 +83,7 @@ For quick experiments you can use `uses: dev-centr/equivalence-engine-action@lat
 | `extensions` | Comma-separated list of extensions | `.py,.cpp,.h,.js,.ts,.astro`
 |===
 
-== Dual Release Strategy
+=== Dual Release Strategy
 
 To maintain both original and adapted versions, use the `out-dir` input:
 
@@ -70,6 +100,11 @@ To maintain both original and adapted versions, use the `out-dir` input:
     out-dir: 'dist/qt6'
 ----
 
-== Changelog
-
 See link:CHANGELOG.md[CHANGELOG.md].
+
+== Contact
+
+DevCentr.org — support@devcentr.org
+
+* Project: https://github.com/dev-centr/equivalence-engine-action
+* Site: https://devcentr.org
