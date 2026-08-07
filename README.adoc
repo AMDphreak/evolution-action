@@ -3,19 +3,11 @@ ifndef::env-github[:icons: font]
 :toclevels: 2
 :sectanchors:
 
-ifndef::env-github[]
+[[readme-top]]
 image:https://img.shields.io/github/contributors/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Contributors,link=https://github.com/dev-centr/equivalence-engine-action/graphs/contributors]
 image:https://img.shields.io/github/forks/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Forks,link=https://github.com/dev-centr/equivalence-engine-action/network/members]
 image:https://img.shields.io/github/stars/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Stars,link=https://github.com/dev-centr/equivalence-engine-action/stargazers]
 image:https://img.shields.io/github/issues/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Issues,link=https://github.com/dev-centr/equivalence-engine-action/issues]
-endif::[]
-
-ifdef::env-github[]
-image:https://img.shields.io/github/contributors/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Contributors]
-image:https://img.shields.io/github/forks/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Forks]
-image:https://img.shields.io/github/stars/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Stars]
-image:https://img.shields.io/github/issues/dev-centr/equivalence-engine-action.svg?style=for-the-badge[Issues]
-endif::[]
 
 = Equivalence Engine Action
 
@@ -36,6 +28,8 @@ Keep this repository **separate** from the engine; pin versions explicitly so en
 * link:https://github.com/dev-centr/equivalence-engine-action[Equivalence Engine Action] — This repository (modular GitHub Action).
 * link:https://github.com/dev-centr/equivalence-rules-code[Equivalence Rules: Code] — Rules for migrating source code between library versions.
 * link:https://github.com/dev-centr/equivalence-rules-filesystem[Equivalence Rules: Filesystem] — Cross-OS path rules.
+
+link:#readme-top[back to top]
 
 == Usage
 
@@ -102,9 +96,13 @@ To maintain both original and adapted versions, use the `out-dir` input:
 
 See link:CHANGELOG.md[CHANGELOG.md].
 
+link:#readme-top[back to top]
+
 == Contact
 
 DevCentr.org — support@devcentr.org
 
 * Project: https://github.com/dev-centr/equivalence-engine-action
 * Site: https://devcentr.org
+
+link:#readme-top[back to top]
